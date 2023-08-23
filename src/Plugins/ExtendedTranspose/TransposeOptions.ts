@@ -173,10 +173,7 @@ export class TransposeOptions {
     }
 
     public set TransposeByKeyRelation(value: boolean) {
-        console.log("-.------------------------------");
-        console.log(this.transposeType);
         this.transposeType = Boolean(value) ? TransposeOptions.transposeByKeyRelation : TransposeOptions.transposeByHalftone;
-        console.log(this.transposeType, this.TransposeByKeyRelation);
     }
 
     public get TransposeOctave(): number {
@@ -242,7 +239,7 @@ export class TransposeOptions {
             toKey,
             true // swapTritoneSense!
         ).closestIs;
-        const keyRelation: number = ETC. computeKeyRelation(this.MainKey, toKey);
+        const keyRelation: number = ETC.computeKeyRelation(this.MainKey, toKey);
         this.Transpose = keyRelation;
     }
 

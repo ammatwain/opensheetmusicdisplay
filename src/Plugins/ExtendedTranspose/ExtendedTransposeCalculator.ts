@@ -12,7 +12,24 @@ export class ExtendedTransposeCalculator implements ITransposeCalculator {
     constructor (osmd: OpenSheetMusicDisplay = undefined) {
         this.osmd = osmd;
         this.Options = new TransposeOptions(this.osmd);
+//        this.test();
     }
+/*
+    test(){
+        for (let maink: number = -7 ; maink<=7 ; maink++ ){
+            for (let trank: number = -7 ; trank<=7 ; trank++ ){
+                const kr: number = ETC.computeKeyRelation(maink,trank);
+                const tr: number = ETC.recoverTransposedKey(maink,kr);
+                if (tr!==trank){
+                    console.log(`${trank} ,${tr} (${maink},${kr})`);
+                }
+            }
+        }
+//        public static computeKeyRelation(mainKey: number, transposeKey: number): number {
+
+//        public static recoverTransposedKey(mainKey: number, keyRelation: number): number {
+    }
+*/
 
     public get MainKey(): number{
         if (this.osmd && this.osmd.GraphicSheet) {
@@ -34,7 +51,7 @@ export class ExtendedTransposeCalculator implements ITransposeCalculator {
 
     private pitchToDegree(pitch: Pitch, majorKey: number): number {
         if (pitch.AccidentalXml){
-            console.log(pitch);
+            // console.log(pitch);
         }
         const degree: number = ETC.pitchToDegree({
             fundamentalNote: Number(pitch.FundamentalNote),
@@ -56,7 +73,7 @@ export class ExtendedTransposeCalculator implements ITransposeCalculator {
 
     public transposePitch(pitch: Pitch, currentKeyInstruction: KeyInstruction, halftones: number): Pitch {
         if (this.Options.TransposeByKeyRelation) {
-            halftones = ETC.recoverTransposedKey(halftones, this.MainKey);
+            halftones = ETC.recoverTransposedKey(this.MainKey, halftones);
         }
         if(!this.Options.TransposeByDiatonic) {
             if (this.Options.KeySignaturesIsRemoved) {
@@ -114,7 +131,7 @@ export class ExtendedTransposeCalculator implements ITransposeCalculator {
 
     public transposeKey(keyInstruction: KeyInstruction, transpose: number): void {
         if (this.Options.TransposeByKeyRelation) {
-            transpose = ETC.recoverTransposedKey(transpose, this.MainKey);
+            transpose = ETC.recoverTransposedKey(this.MainKey, transpose);
         }
         if (this.Options.TransposeByKey || this.Options.TransposeByKeyRelation) {
             const transposeToKey: number = ETC.keyToMajorKey(transpose);
